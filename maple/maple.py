@@ -128,12 +128,14 @@ def ninePercentage(staff_pos=None):
         if screen.okAttributes() == False:
             clickWeirdCubeConfirmButtom()
             pp.press('enter')
-            pp.press('enter')
+            pp.press('enter', _pause=False)
             print('continue')
             time.sleep(1)
         else:
             print('ninePercentage finish')
             break
+        if screen.existingWeirdCube() == False:
+            return ninePercentage(staff_pos)
     
     clickWeirdCubeCancelButtom()
     return True
@@ -178,4 +180,12 @@ def start(staff_img=''):
 # for staff in os.listdir("./img/staff"):
 #     print('start {file}'.format(file=staff))
 #     start('./img/staff/{staff}'.format(staff=staff))
-start('./img/staff/{staff}'.format(staff='shoes1.png'))
+start('./img/staff/{staff}'.format(staff='suit1.png'))
+start('./img/staff/{staff}'.format(staff='suit2.png'))
+start('./img/staff/{staff}'.format(staff='suit3.png'))
+start('./img/staff/{staff}'.format(staff='suit4.png'))
+start('./img/staff/{staff}'.format(staff='suit5.png'))
+# for staff in os.listdir("./img/staff"):
+#     staffs_pos = p.locateAllOnScreen('./img/staff/{staff}'.format(staff=staff))
+#     for pos in staffs_pos:
+#         print(staff, pos)

@@ -77,5 +77,11 @@ def okAttributes(cube='weird'):
 
     return False
 
+def existingWeirdCube():
+    exist = p.locateOnScreen('./img/weird_cube_opening.png')
+    if exist == None:
+        return False
+    return True
+
 
 p.screenshot(imageFilename='staff.png', region=(1711, 231-42, 24, 18))

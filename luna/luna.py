@@ -36,6 +36,6 @@ while True:
             pp.press('tab')
         else:
             print('found!')
-            break
-    pp.press('1')
-    time.sleep(3)
+            break               
+    pp.press('1')                                                                                                               
+    time.sleep(5.8)                                                                                         
