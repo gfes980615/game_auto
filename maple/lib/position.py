@@ -10,7 +10,7 @@ p.PAUSE = 0.5
 
 
 # screenshot
-locate_file='./img/staff/suit5.png'
+locate_file='../img/staff/suit6.png'
 print('Screenshot')
 p.screenshot(imageFilename=locate_file, region=(1879, 63, 24, 18))
 

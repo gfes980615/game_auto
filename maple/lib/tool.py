@@ -1,12 +1,14 @@
 import pyautogui as p
 import pydirectinput as pp
 import time
-import screen
-import level_up as l
-import os
+import lib.screen as screen
+import lib.level_up as l
 
 p.PAUSE = 0.5
 pp.PAUSE = 0.5
+
+maple_cube_total=0
+weird_cube_total=0
 
 def findField(field=''):
     pos_1 = p.locateCenterOnScreen('./img/field/{field}.png'.format(field=field))
@@ -19,35 +21,11 @@ def findField(field=''):
         pos = pos_2
     return pos
 
-def clickCubeCenter():
-    pos = p.locateCenterOnScreen('./img/cube_center.png')
-    if pos == None:
-        return False
-    p.moveTo(pos)
-    p.click()
-    return True
-
 def findImg(img=''):
     pos = p.locateCenterOnScreen('./img/{img}.png'.format(img=img))
     if pos == None:
         return None, False
     return pos, True
-
-def clickCubeConfirmButtom():
-    p.moveTo(939, 664)
-    p.click()
-
-def clickCubeCancelButtom():
-    p.moveTo(983, 664)
-    p.click()
-
-def clickWeirdCubeConfirmButtom():
-    p.moveTo(939, 664)
-    p.click()
-
-def clickWeirdCubeCancelButtom():
-    p.moveTo(1028, 664)
-    p.click()
 
 def isLevelUp():
     pos = p.locateCenterOnScreen('./img/level_up.png')
@@ -63,11 +41,18 @@ def onlyTwoLine():
     return False
 
 def levelUp():
+    global maple_cube_total
     print('Start level up.')
+    level_up_counter = 0
     while True:
+        if level_up_counter >= 200:
+            print('Cost too much many')
+            return False
         if isLevelUp():
             clickCubeCancelButtom()
+            print()
             print('Level up success!')
+            maple_cube_total += level_up_counter
             return True
         if onlyTwoLine():
             clickCubeCancelButtom()
@@ -75,6 +60,8 @@ def levelUp():
             return False
         clickCubeConfirmButtom()
         pp.press('enter')
+        level_up_counter += 1
+        print('count: ', level_up_counter, ', not yet, countinue.', end='\r')
         time.sleep(1)
 
 def openPackage():
@@ -105,9 +92,10 @@ def openCube():
 
 def moveMouseOutPackagePosition():
     p.moveTo(300, 300)
-    print('Mouse move to another place.')
+    # print('Mouse move to another place.')
 
 def ninePercentage(staff_pos=None):
+    global weird_cube_total
     consume_pos = findField('consume')
     p.moveTo(consume_pos)
     p.click()
@@ -124,15 +112,25 @@ def ninePercentage(staff_pos=None):
     p.click()
     pp.press('enter')
     time.sleep(2)
+    
+    weird_cube_counter = 0
+    print("Counter")
+
     while True:
+        weird_cube_counter += 1
+        if weird_cube_counter >= 100:
+            print('Cost too many werid cube, ignore this time.')
+            return False
         if screen.okAttributes() == False:
+            print('count: ', weird_cube_counter, ', not yet, countinue.', end='\r')
             clickWeirdCubeConfirmButtom()
             pp.press('enter')
             pp.press('enter', _pause=False)
-            print('continue')
             time.sleep(1)
         else:
+            print('count: ', weird_cube_counter, ', success! Finish.')
             print('ninePercentage finish')
+            weird_cube_total += weird_cube_counter
             break
         if screen.existingWeirdCube() == False:
             return ninePercentage(staff_pos)
@@ -168,24 +166,67 @@ def start(staff_img=''):
         if level_up == True:
             print('Start 9 percentage attributes')
             nine_percentage = ninePercentage(staff_pos=staff)
-
-            print('Start raise the reel and star')
-            l.raiseStaffReelAndOneStar(staff)
+            if nine_percentage == True:
+                print('Start raise the reel and star')
+                l.raiseStaffReelAndOneStar(staff)
         print('End.')
         print('=================')
         
     print('Finish ',staff_img)
     print()
 
-# for staff in os.listdir("./img/staff"):
-#     print('start {file}'.format(file=staff))
-#     start('./img/staff/{staff}'.format(staff=staff))
-start('./img/staff/{staff}'.format(staff='suit1.png'))
-start('./img/staff/{staff}'.format(staff='suit2.png'))
-start('./img/staff/{staff}'.format(staff='suit3.png'))
-start('./img/staff/{staff}'.format(staff='suit4.png'))
-start('./img/staff/{staff}'.format(staff='suit5.png'))
-# for staff in os.listdir("./img/staff"):
-#     staffs_pos = p.locateAllOnScreen('./img/staff/{staff}'.format(staff=staff))
-#     for pos in staffs_pos:
-#         print(staff, pos)
+def start_from_positions(postions):
+    num = 1
+    for pos in postions:
+        print('Start! item: ', num)
+        num += 1
+        open_cube = openCube()
+        if open_cube == False:
+            print('Not found cube')
+            break
+        p.moveTo(pos)
+        p.click()
+
+        cube_center = clickCubeCenter()
+        if cube_center == False:
+            print('Not open the cube, cancel.')
+            break
+
+        level_up = levelUp()
+        if level_up == True:
+            print('Start 9 percentage attributes')
+            nine_percentage = ninePercentage(staff_pos=pos)
+
+            print('Start raise the reel and star')
+            l.raiseStaffReelAndOneStar(pos)
+        else:
+            print(pos)
+        print('End.')
+        print('=================')
+        
+    print('Finish=========')
+    print()
+
+def clickCubeConfirmButtom():
+    p.moveTo(939, 664)
+    p.click()
+
+def clickCubeCancelButtom():
+    p.moveTo(983, 664)
+    p.click()
+
+def clickWeirdCubeConfirmButtom():
+    p.moveTo(939, 664)
+    p.click()
+
+def clickWeirdCubeCancelButtom():
+    p.moveTo(1028, 664)
+    p.click()
+
+def clickCubeCenter():
+    pos = p.locateCenterOnScreen('./img/cube_center.png')
+    if pos == None:
+        return False
+    p.moveTo(pos)
+    p.click()
+    return True

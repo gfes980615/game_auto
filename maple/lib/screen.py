@@ -24,7 +24,7 @@ def okAttributes(cube='weird'):
         text = text.replace(" ","")
         attributes.append(text)
 
-    print(attributes)
+    # print(attributes)
     attrMap_6 = dict(
         str=re.compile('.*STR.*6(8|%).*'),
         int=re.compile('.*INT.*6(8|%).*'),
@@ -64,14 +64,16 @@ def okAttributes(cube='weird'):
                 count_3[key] += 1
                 break
 
-    print(count_6)
-    print(count_3)
+    # print(count_6)
+    # print(count_3)
 
     for key in count_6:
         if count_6[key] >= 2:
+            print()
             print('success', key)
             return True
         elif count_6[key] >= 1 and count_3[key] >=1:
+            print()
             print('success', key)
             return True
 
