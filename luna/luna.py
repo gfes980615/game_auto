@@ -13,7 +13,7 @@ while True:
     buff_dict = dict({
         'exp_2h_10pa': '6',
         'exp_2h_20pa': '7',
-        'exp_1h_50pa': '8',
+        'exp_1h_100pa': '8',
     })
 
     for buff, press_key in buff_dict.items():

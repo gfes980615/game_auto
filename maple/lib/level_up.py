@@ -49,6 +49,7 @@ def clickImagePos(img=''):
 def raiseStaffReelAndOneStar(staff_pos=None):
     p.click(300, 300)
     pp.press('o')
+    print(staff_pos)
     p.moveTo(staff_pos)
     p.click()
     p.moveTo(p.locateOnScreen('./img/raise_star_logo.png'))

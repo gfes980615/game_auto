@@ -3,14 +3,14 @@ import time
 
 p.PAUSE = 0.5
 
-# # get position
+# get position
 # while True:
 #     print(p.position())
 #     time.sleep(5)
 
 
 # screenshot
-locate_file='../img/staff/suit6.png'
+locate_file='../img/staff/ears.png'
 print('Screenshot')
 p.screenshot(imageFilename=locate_file, region=(1879, 63, 24, 18))
 

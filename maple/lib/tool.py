@@ -46,7 +46,7 @@ def levelUp():
     level_up_counter = 0
     while True:
         if level_up_counter >= 200:
-            print('Cost too much many')
+            print('Cost too much money')
             return False
         if isLevelUp():
             clickCubeCancelButtom()
@@ -195,10 +195,9 @@ def start_from_positions(postions):
         level_up = levelUp()
         if level_up == True:
             print('Start 9 percentage attributes')
-            nine_percentage = ninePercentage(staff_pos=pos)
-
-            print('Start raise the reel and star')
-            l.raiseStaffReelAndOneStar(pos)
+            if ninePercentage(staff_pos=pos):
+                print('Start raise the reel and star')
+                l.raiseStaffReelAndOneStar(pos)
         else:
             print(pos)
         print('End.')
@@ -208,12 +207,25 @@ def start_from_positions(postions):
     print()
 
 def clickCubeConfirmButtom():
-    p.moveTo(939, 664)
+    p.moveTo(940, 655)
     p.click()
+    # cube_pos = p.locateCenterOnScreen('./img/cube_confirm_button.png')
+    # if cube_pos is not None:
+    #     p.moveTo(cube_pos)
+    #     p.click()
+    # else:
+    #     print('Not fount cube, need to get it.')
+    
 
 def clickCubeCancelButtom():
-    p.moveTo(983, 664)
+    p.moveTo(985, 655)
     p.click()
+    # cube_pos = p.locateCenterOnScreen('./img/cube_cancel_button.png')
+    # if cube_pos is not None:
+    #     p.moveTo(cube_pos)
+    #     p.click()
+    # else:
+    #     print('Not fount cube, need to get it.')
 
 def clickWeirdCubeConfirmButtom():
     p.moveTo(939, 664)
@@ -230,3 +242,16 @@ def clickCubeCenter():
     p.moveTo(pos)
     p.click()
     return True
+
+def clickKeyboard(char):
+    pos = p.locateCenterOnScreen('./img/keyboard/'+char+'.png')
+    if pos == None:
+        return False
+    p.moveTo(pos)
+    p.click()
+
+def pressEnter():
+    pp.press('enter')
+
+def pressKeyboard(key):
+    pp.press(key)
